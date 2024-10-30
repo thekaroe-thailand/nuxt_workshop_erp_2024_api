@@ -4,10 +4,16 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const userController = require("./controllers/UserController");
+const productTypeController = require("./controllers/ProductTypeController");
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+//
+// product type
+//
+app.post("/api/productType/create", productTypeController.create);
 
 //
 // user
