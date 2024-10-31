@@ -13,7 +13,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //
 // product type
 //
+app.delete("/api/productType/remove/:id", productTypeController.remove);
+app.put("/api/productType/update/:id", productTypeController.update);
 app.post("/api/productType/create", productTypeController.create);
+app.get("/api/productType/list", productTypeController.list);
 
 //
 // user
