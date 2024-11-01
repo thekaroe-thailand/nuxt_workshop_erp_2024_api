@@ -21,6 +21,8 @@ app.get("/api/productType/list", productTypeController.list);
 //
 // user
 //
+app.put("/api/user/update", userController.update);
+app.get("/api/user/info", userController.info);
 app.post("/api/user/signIn", userController.signIn);
 
 app.listen(3001, '0.0.0.0', () => {
