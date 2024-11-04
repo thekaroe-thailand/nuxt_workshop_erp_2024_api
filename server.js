@@ -5,10 +5,25 @@ const bodyParser = require("body-parser");
 
 const userController = require("./controllers/UserController");
 const productTypeController = require("./controllers/ProductTypeController");
+const materialController = require("./controllers/MaterialController");
+const stockMaterialController = require("./controllers/StockMaterialController");
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+//
+// stock material
+//
+app.post("/api/stockMaterial/create", stockMaterialController.create);
+
+//
+// material
+//
+app.delete("/api/material/remove/:id", materialController.remove);
+app.put("/api/material/update/:id", materialController.update);
+app.post("/api/material/create", materialController.create);
+app.get("/api/material/list", materialController.list);
 
 //
 // product type

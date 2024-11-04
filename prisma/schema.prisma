@@ -42,14 +42,16 @@ model Material {
   status    String @default("active")
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
+  StockMaterial StockMaterial[]
 }
 
 model StockMaterial {
   id        String @id @default(auto()) @map("_id") @db.ObjectId
-  materialId String
+  materialId String @db.ObjectId
   quantity  Int
   price     Int
   remark    String?
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
+  Material  Material? @relation(fields: [materialId], references: [id])
 }
