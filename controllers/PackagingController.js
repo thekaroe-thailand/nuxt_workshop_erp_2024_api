@@ -4,14 +4,9 @@ const prisma = new PrismaClient();
 module.exports = {
     create: async (req, res) => {
         try {
-            await prisma.stockMaterial.create({
-                data: {
-                    materialId: req.body.material_id,
-                    quantity: req.body.quantity,
-                    price: req.body.price,
-                    remark: req.body.remark
-                }
-            })
+            await prisma.packaging.create({
+                data: req.body
+            });
 
             res.json({ message: "success" });
         } catch (error) {
@@ -20,23 +15,40 @@ module.exports = {
     },
     list: async (req, res) => {
         try {
-            const stockMaterials = await prisma.stockMaterial.findMany({
-                include: {
-                    Material: true
+            const packagings = await prisma.packaging.findMany({
+                where: {
+                    status: "active"
                 },
                 orderBy: {
                     createdAt: "desc"
                 }
             });
 
-            res.json({ results: stockMaterials });
+            res.json({ results: packagings });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
     },
     remove: async (req, res) => {
         try {
-            await prisma.stockMaterial.delete({
+            await prisma.packaging.update({
+                data: {
+                    status: "inactive"
+                },
+                where: {
+                    id: req.params.id
+                }
+            });
+
+            res.json({ message: "success" });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
+    update: async (req, res) => {
+        try {
+            await prisma.packaging.update({
+                data: req.body,
                 where: {
                     id: req.params.id
                 }

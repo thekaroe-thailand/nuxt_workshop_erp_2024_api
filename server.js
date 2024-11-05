@@ -7,14 +7,25 @@ const userController = require("./controllers/UserController");
 const productTypeController = require("./controllers/ProductTypeController");
 const materialController = require("./controllers/MaterialController");
 const stockMaterialController = require("./controllers/StockMaterialController");
+const packagingController = require("./controllers/PackagingController");
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //
+// packaging
+//
+app.put("/api/packaging/update/:id", packagingController.update);
+app.delete("/api/packaging/remove/:id", packagingController.remove);
+app.get("/api/packaging/list", packagingController.list);
+app.post("/api/packaging/create", packagingController.create);
+
+//
 // stock material
 //
+app.delete("/api/stockMaterial/remove/:id", stockMaterialController.remove);
+app.get("/api/stockMaterial/list", stockMaterialController.list);
 app.post("/api/stockMaterial/create", stockMaterialController.create);
 
 //
