@@ -8,10 +8,25 @@ const productTypeController = require("./controllers/ProductTypeController");
 const materialController = require("./controllers/MaterialController");
 const stockMaterialController = require("./controllers/StockMaterialController");
 const packagingController = require("./controllers/PackagingController");
+const productController = require("./controllers/ProductController");
+const productFormularController = require("./controllers/ProductFormularController");
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// 
+// product formular
+//
+app.get("/api/productFormular/list/:productId", productFormularController.list);
+
+// 
+// product
+//
+app.post("/api/product/create", productController.create);
+app.put("/api/product/update/:id", productController.update);
+app.delete("/api/product/remove/:id", productController.remove);
+app.get("/api/product/list", productController.list);
 
 //
 // packaging
