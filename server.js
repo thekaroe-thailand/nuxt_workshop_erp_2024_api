@@ -11,10 +11,19 @@ const packagingController = require("./controllers/PackagingController");
 const productController = require("./controllers/ProductController");
 const productFormularController = require("./controllers/ProductFormularController");
 const productionPlanController = require("./controllers/ProductionPlanController");
+const productionController = require("./controllers/ProductionController");
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+//
+// production
+//
+app.delete("/api/production/remove/:id", productionController.remove);
+app.put("/api/production/update/:id", productionController.update);
+app.post("/api/production/create", productionController.create);
+app.get("/api/production/list/:productionPlanId", productionController.list);
 
 //
 // production plan

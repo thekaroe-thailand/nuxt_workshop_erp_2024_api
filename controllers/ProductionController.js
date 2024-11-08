@@ -3,21 +3,23 @@ const prisma = new PrismaClient();
 
 module.exports = {
     list: async (req, res) => {
+        const productionPlanId = req.params.productionPlanId;
+
         try {
-            const plans = await prisma.productionPlan.findMany({
+            const productions = await prisma.production.findMany({
                 where: {
-                    status: "active"
+                    status: "active",
+                    productionPlanId: productionPlanId
                 },
                 include: {
-                    Product: {
+                    ProductionPlan: {
                         include: {
-                            ProductType: true,
-                            Packaging: true
-                        }
-                    },
-                    Production: {
-                        where: {
-                            status: "active"
+                            Product: {
+                                include: {
+                                    Packaging: true,
+                                    ProductType: true
+                                }
+                            }
                         }
                     }
                 },
@@ -26,14 +28,14 @@ module.exports = {
                 }
             });
 
-            res.json({ results: plans });
+            res.json({ results: productions });
         } catch (e) {
             res.status(500).json({ error: e.message });
         }
     },
     create: async (req, res) => {
         try {
-            await prisma.productionPlan.create({
+            await prisma.production.create({
                 data: req.body
             });
 
@@ -44,7 +46,7 @@ module.exports = {
     },
     update: async (req, res) => {
         try {
-            await prisma.productionPlan.update({
+            await prisma.production.update({
                 where: {
                     id: req.params.id
                 },
@@ -58,13 +60,11 @@ module.exports = {
     },
     remove: async (req, res) => {
         try {
-            await prisma.productionPlan.update({
+            await prisma.production.update({
                 where: {
                     id: req.params.id
                 },
-                data: {
-                    status: "inactive"
-                }
+                data: { status: "inactive" }
             });
 
             res.json({ message: "success" });

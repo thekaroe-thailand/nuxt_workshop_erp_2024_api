@@ -105,4 +105,18 @@ model ProductionPlan {
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
   Product Product? @relation(fields: [productId], references: [id])
+  Production Production[]
 }
+
+
+model Production {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  productionPlanId String @db.ObjectId
+  quantity  Int
+  status    String @default("active")
+  remark    String?
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+  ProductionPlan ProductionPlan? @relation(fields: [productionPlanId], references: [id])
+}
+
