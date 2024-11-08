@@ -10,14 +10,26 @@ const stockMaterialController = require("./controllers/StockMaterialController")
 const packagingController = require("./controllers/PackagingController");
 const productController = require("./controllers/ProductController");
 const productFormularController = require("./controllers/ProductFormularController");
+const productionPlanController = require("./controllers/ProductionPlanController");
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+//
+// production plan
+//
+app.post("/api/productionPlan/create", productionPlanController.create);
+app.put("/api/productionPlan/update/:id", productionPlanController.update);
+app.delete("/api/productionPlan/remove/:id", productionPlanController.remove);
+app.get("/api/productionPlan/list", productionPlanController.list);
+
 // 
 // product formular
 //
+app.post("/api/productFormular/create", productFormularController.create);
+app.delete("/api/productFormular/remove/:formularId", productFormularController.remove);
+app.put("/api/productFormular/update/:id", productFormularController.update);
 app.get("/api/productFormular/list/:productId", productFormularController.list);
 
 // 

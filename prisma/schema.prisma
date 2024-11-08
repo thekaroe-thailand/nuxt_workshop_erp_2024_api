@@ -29,6 +29,7 @@ model ProductType {
   name      String
   remark    String?
   status    String @default("active")
+  Product Product[]
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 }
@@ -62,6 +63,7 @@ model Packaging {
   name      String
   remark    String?
   status    String @default("active")
+  Product Product[]
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 }
@@ -71,9 +73,14 @@ model Product {
   name      String
   remark    String?
   status    String @default("active")
+  packagingId String @db.ObjectId
+  productTypeId String @db.ObjectId
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
+  Packaging Packaging? @relation(fields: [packagingId], references: [id])
+  ProductType ProductType? @relation(fields: [productTypeId], references: [id])
   ProductFormular ProductFormular[]
+  ProductionPlan ProductionPlan[]
 } 
 
 model ProductFormular {
@@ -87,4 +94,15 @@ model ProductFormular {
   updatedAt DateTime? @updatedAt
   Product Product? @relation(fields: [productId], references: [id])
   Material Material? @relation(fields: [materialId], references: [id])
+}
+
+model ProductionPlan {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  productId String @db.ObjectId
+  quantity  Int
+  status    String @default("active")
+  remark    String?
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+  Product Product? @relation(fields: [productId], references: [id])
 }

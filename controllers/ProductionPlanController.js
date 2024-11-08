@@ -4,27 +4,37 @@ const prisma = new PrismaClient();
 module.exports = {
     list: async (req, res) => {
         try {
-            const formulars = await prisma.productFormular.findMany({
-                include: {
-                    Material: true
-                },
+            const plans = await prisma.productionPlan.findMany({
                 where: {
-                    productId: req.params.productId,
                     status: "active"
+                },
+                include: {
+                    Product: true
                 },
                 orderBy: {
                     createdAt: "desc"
                 }
             });
 
-            res.json({ results: formulars });
+            res.json({ results: plans });
+        } catch (e) {
+            res.status(500).json({ error: e.message });
+        }
+    },
+    create: async (req, res) => {
+        try {
+            await prisma.productionPlan.create({
+                data: req.body
+            });
+
+            res.json({ message: "success" });
         } catch (e) {
             res.status(500).json({ error: e.message });
         }
     },
     update: async (req, res) => {
         try {
-            await prisma.productFormular.update({
+            await prisma.productionPlan.update({
                 where: {
                     id: req.params.id
                 },
@@ -38,24 +48,13 @@ module.exports = {
     },
     remove: async (req, res) => {
         try {
-            await prisma.productFormular.update({
+            await prisma.productionPlan.update({
                 where: {
-                    id: req.params.formularId
+                    id: req.params.id
                 },
                 data: {
                     status: "inactive"
                 }
-            });
-
-            res.json({ message: "success" });
-        } catch (e) {
-            res.status(500).json({ error: e.message });
-        }
-    },
-    create: async (req, res) => {
-        try {
-            await prisma.productFormular.create({
-                data: req.body
             });
 
             res.json({ message: "success" });

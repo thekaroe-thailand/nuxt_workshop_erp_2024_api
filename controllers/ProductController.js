@@ -16,6 +16,10 @@ module.exports = {
     list: async (req, res) => {
         try {
             const products = await prisma.product.findMany({
+                include: {
+                    Packaging: true,
+                    ProductType: true
+                },
                 where: {
                     status: "active"
                 },
