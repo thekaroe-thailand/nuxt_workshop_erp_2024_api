@@ -12,10 +12,17 @@ const productController = require("./controllers/ProductController");
 const productFormularController = require("./controllers/ProductFormularController");
 const productionPlanController = require("./controllers/ProductionPlanController");
 const productionController = require("./controllers/ProductionController");
+const reportController = require("./controllers/ReportController");
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// 
+// report
+//
+app.get("/api/report/productsAndCost", reportController.productsAndCost);
+app.post("/api/report/production", reportController.production);
 
 //
 // production
@@ -83,6 +90,10 @@ app.get("/api/productType/list", productTypeController.list);
 //
 // user
 //
+app.put("/api/user/updateUser/:id", userController.updateUser);
+app.get("/api/user/list", userController.list);
+app.delete("/api/user/remove/:id", userController.remove);
+app.post("/api/user/create", userController.create);
 app.put("/api/user/update", userController.update);
 app.get("/api/user/info", userController.info);
 app.post("/api/user/signIn", userController.signIn);

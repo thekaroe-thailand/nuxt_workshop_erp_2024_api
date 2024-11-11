@@ -94,5 +94,81 @@ module.exports = {
         } catch (error) {
             res.status(500).json({ message: error.message });
         }
+    },
+    create: async (req, res) => {
+        try {
+            await prisma.user.create({
+                data: req.body
+            });
+
+            res.json({ message: 'success' });
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    },
+    list: async (req, res) => {
+        try {
+            const users = await prisma.user.findMany({
+                where: {
+                    status: "active"
+                },
+                orderBy: {
+                    createdAt: "desc"
+                }
+            });
+
+            res.json({ results: users });
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    },
+    remove: async (req, res) => {
+        try {
+            await prisma.user.update({
+                where: {
+                    id: req.params.id
+                },
+                data: {
+                    status: "inactive"
+                }
+            });
+
+            res.json({ message: 'success' });
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    },
+    updateUser: async (req, res) => {
+        try {
+            let oldPassword = '';
+
+            if (req.body.password) {
+                oldPassword = req.body.password;
+            } else {
+                const oldUser = await prisma.user.findUnique({
+                    where: {
+                        id: req.params.id
+                    }
+                });
+
+                oldPassword = oldUser.password;
+            }
+
+            await prisma.user.update({
+                where: {
+                    id: req.params.id
+                },
+                data: {
+                    name: req.body.name,
+                    username: req.body.username,
+                    level: req.body.level,
+                    password: oldPassword
+                }
+            });
+
+            res.json({ message: 'success' });
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
     }
 };
