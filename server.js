@@ -21,6 +21,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // 
 // report
 //
+app.post("/api/report/sumProductionPerDayInMonthAndYear", reportController.sumProductionPerDayInMonthAndYear);
+app.post('/api/report/sumProductionPerMonthAndYear', reportController.sumProductionPerMonthAndYear);
+app.post("/api/report/sumPriceStockMaterialPerYearAndMonth", reportController.sumPriceStockMaterialPerYearAndMonth);
+app.post("/api/report/sumProductionPerYearAndMonth", reportController.sumProductionPerYearAndMonth);
+app.post("/api/report/sumProductionPlanPerYearAndMonth", reportController.sumProductionPlanPerYearAndMonth);
 app.get("/api/report/productsAndCost", reportController.productsAndCost);
 app.post("/api/report/production", reportController.production);
 
